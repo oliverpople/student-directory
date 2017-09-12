@@ -25,11 +25,11 @@ def print_header
 end
 
 def print(students)
-  name_begins = "a"
-  students.each_with_index do |student, index|
-    if student[:name].length < 12
-      puts "#{index +1}. #{student[:name]} (#{student[:cohort]} cohort)"
-    end
+  count = 1
+  while count <= students.length
+    student = students[count - 1]
+    puts "#{count}. #{student[:name]} (#{student[:cohort]} cohort)"
+    count += 1
   end
 end
 
