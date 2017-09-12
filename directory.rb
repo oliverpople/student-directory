@@ -27,7 +27,7 @@ end
 def print(students)
   name_begins = "a"
   students.each_with_index do |student, index|
-    if student[:name].downcase.start_with?(name_begins)
+    if student[:name].length < 12
       puts "#{index +1}. #{student[:name]} (#{student[:cohort]} cohort)"
     end
   end
