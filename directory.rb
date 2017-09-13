@@ -1,8 +1,9 @@
+
+
 # let's put all students into an interactive array
 def input_students
-  puts "Please enter the names of the students" +
-  " followed by their favourite hobby, country of birth and height(cm)."
-  + " Please seperate each by a comma"
+  puts "Please enter the names of the students followed by their favourite hobby,"
+  + " country of birth and height(cm). Please seperate each by a comma."
   puts "To finish, just the hit return twice"
   #create an empty array
   students = []
@@ -30,7 +31,7 @@ def print(students)
   count = 1
   while count <= students.length
     student = students[count - 1]
-    puts "#{count}. #{student[:name]} (#{student[:cohort]} cohort)"
+    puts "#{count}. #{student[:name]} (#{student[:cohort]} cohort)".center(60)
     count += 1
   end
 end
