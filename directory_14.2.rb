@@ -37,7 +37,7 @@ def input_students
   puts "To finish, just hit return twice"
   name = STDIN.gets.chomp
   while !name.empty? do
-    @students << {name: name, cohort: :november}
+    students_array(name, "November")
     puts "Now we have #{@students.count} students"
     name = STDIN.gets.chomp
   end
@@ -78,9 +78,10 @@ end
 
 def try_load_students
   filename = ARGV.first # tries first argument from command line
-  if filename.to_s.empty?
-    return load_students
-  end
+  filename ||= "students.csv"  # ruby "||="
+  #if filename.to_s.empty?
+  #  return load_students
+  #end
   if File.exist?(filename.to_s) # if it exists
     load_students(filename)
       puts "Loaded" #{@students.count} from #{filename}"
@@ -95,9 +96,13 @@ def load_students(filename = "students.csv") # "students.csv"becomes default val
   file = File.open(filename, "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',') # parrallel assignment; assigninig two varibales at same time
-    @students << {name: name, cohort: cohort.to_sym}
+    students_array(name, cohort)
   end
   file.close
+end
+
+def students_array(name, cohort)
+  @students << {name: name, cohort: cohort.to_sym}
 end
 
 try_load_students
