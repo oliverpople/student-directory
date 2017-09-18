@@ -41,7 +41,7 @@ def input_students
     puts "Is '#{name}' written correctly? If correct press 'Y'"
       check = gets.chomp.downcase
         if check == 'y'
-          students_array(name, "November")
+          @students << {name: name, cohort: :november}
           puts "Now we have #{@students.count} students"
           name = STDIN.gets.chomp
         else
@@ -63,7 +63,7 @@ end
 
 def print_student_list
   @students.each do |student|
-    puts "#{student[:name]} #{student[:cohort]}"
+    puts "#{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
 
@@ -84,12 +84,7 @@ end
 
 def save_students(filename, accessor_method)
   file = File.open(filename, accessor_method)
-  @students.each do |student|
-      student_data = student[:name], student [:cohort]
-      puts student_data.inspect
-      csv_line = student_data.join(',')
-      file.puts csv_line
-  end
+  @students.each { |student| file.puts "#{student[:name]},#{student[:cohort]}"}
   puts "\nYou have saved #{@students.length} students to the file."
   file.close
 end
@@ -115,13 +110,17 @@ def try_load_students
 end
 
 def load_students(filename)
-  puts filename.inspect
-  require 'csv'
-  CSV.foreach(filename) do |row|
-    name, cohort = row.to_s.split(',')
-    students_array(name, cohort)
+  begin
+    file = File.open(filename, "r")
+    file.readlines.each do |line|
+        name, cohort = line.chomp.split(",")
+        @students << {name: name, cohort: cohort.to_sym}
+    end
+    puts "\nLoaded #{@students.length} students from the file."
+    file.close
+  rescue
+    puts "Could not open file, or file not found"
   end
-  puts "\nLoaded #{@students.length} students from the file."
 end
 
 def students_array(name, cohort)
